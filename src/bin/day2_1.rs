@@ -27,14 +27,23 @@ fn line_to_sign_pair(line: &str) -> SignPair {
   }
 }
 
+fn check_a_wins(a: &Sign, b: &Sign) -> bool {
+  match (a, b) {
+    (Sign::Rock, Sign::Scissors) => true,
+    (Sign::Paper, Sign::Rock) => true,
+    (Sign::Scissors, Sign::Paper) => true,
+    _ => false
+  }
+}
+
+fn check_draw(a: &Sign, b: &Sign) -> bool {
+  a == b
+}
+
 fn calculate_outcome_points(pair: &SignPair) -> i32 {
-  if pair.player == pair.opponent {
+  if check_draw(&pair.player, &pair.opponent) {
     3
-  } else if pair.player == Sign::Rock && pair.opponent == Sign::Scissors {
-    6
-  } else if pair.player == Sign::Paper && pair.opponent == Sign::Rock {
-    6
-  } else if pair.player == Sign::Scissors && pair.opponent == Sign::Paper {
+  } else if check_a_wins(&pair.player, &pair.opponent) {
     6
   } else {
     0
